@@ -216,7 +216,7 @@
         </div>
         <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
           <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/blog_inline_cast_iron_spices.jpg" alt="Whole Spiced Cast-Iron Lentil Pot" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="/assets/images/spiced_broth_terrine.jpg" alt="Whole Spiced Cast-Iron Lentil Pot" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div style="padding: 1.8rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course III &bull; Clay-Pot Simmer</span>
@@ -232,7 +232,7 @@
         </div>
         <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
           <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/blog_botanical_gastronomy.jpg" alt="Handcrafted Botanical Entrée" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="/assets/images/blog_inline_tasting_plate.jpg" alt="Handcrafted Botanical Entrée" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div style="padding: 1.8rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course IV &bull; Precision Pass</span>
@@ -382,7 +382,7 @@
       </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/botanical_dinner_entree.jpg" alt="Single-Estate Le Puy Green Jar" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/blog_oil_blooming_spice_kinetics.jpg" alt="Single-Estate Le Puy Green Jar" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Auvergne Basalt Terroir</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Single-Estate Le Puy Green Jar</h3>
@@ -396,7 +396,7 @@
           </div>
         </div>
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/chef_plating_botanical.jpg" alt="Smoked Beluga Pearl Caviar" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/coconut_curry_soup_tureen.jpg" alt="Smoked Beluga Pearl Caviar" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Applewood Cold-Smoked</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Smoked Black Beluga Pearls</h3>
@@ -410,7 +410,7 @@
           </div>
         </div>
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/blog_inline_tasting_plate.jpg" alt="Stone-Ground Ancestral Dal Masala" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/smoked_paprika_spice_bowls.jpg" alt="Stone-Ground Ancestral Dal Masala" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Hand-Milled Spices</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Stone-Ground Ancestral Masala</h3>
@@ -424,7 +424,7 @@
           </div>
         </div>
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/blog_inline_ground_spice_texture.jpg" alt="Cold-Infused Mustard Finishing Oil" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/coconut_milk_seafood_curry.jpg" alt="Cold-Infused Mustard Finishing Oil" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">First Cold Press</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Cold-Infused Finishing Oil</h3>
@@ -438,7 +438,7 @@
           </div>
         </div>
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/herb_harvest_basket.jpg" alt="Sprouted Moong Botanical Flour" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/hero_ginger_dish.jpg" alt="Sprouted Moong Botanical Flour" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Dehydrated Sprouted Seed</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Sprouted Moong Flour</h3>
@@ -452,7 +452,7 @@
           </div>
         </div>
         <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/about_gallery_kitchen.jpg" alt="Hand-Thrown Earthen Simmer Pot" style="width: 100%; height: 260px; object-fit: cover;">
+          <img src="/assets/images/artisan_sourdough_bread.jpg" alt="Hand-Thrown Earthen Simmer Pot" style="width: 100%; height: 260px; object-fit: cover;">
           <div style="padding: 1.5rem;">
             <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Unglazed Natural Terracotta</span>
             <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Hand-Thrown Simmer Pot</h3>
@@ -516,7 +516,7 @@
       <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; align-items: center;">
         <div>
           <div style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid #E2DCD2;">
-            <img src="/assets/images/about_gallery_table.jpg" alt="181 Mercer Street Tasting Salon Table" style="width: 100%; height: auto;">
+            <img src="/assets/images/lookbook_mercer_dining.jpg" alt="181 Mercer Street Tasting Salon Table" style="width: 100%; height: auto;">
           </div>
         </div>
         <div>
